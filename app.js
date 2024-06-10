@@ -7,7 +7,12 @@ const passport = require("passport");
 const { postMessageRouter, getMessageRouter } = require("./routes/messageRoute");
 const app = express();
 // initialize
-app.use(cors())
+const corsOptions ={
+    origin: "*", 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(express.static("uploads"))
