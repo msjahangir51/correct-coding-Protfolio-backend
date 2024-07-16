@@ -2,6 +2,7 @@ const multer = require("multer");
 const { LatestProduct } = require("../model/ProjectsSchema");
 const ProductRouter = require("express").Router();
 const GetProductRouter = require("express").Router();
+const deleteProjectRouter = require("express").Router();
 GetProductRouter.get("/latestproductdata", async(req,res)=>{
     const project = await LatestProduct.find();
     res.status(220).send(project)
@@ -44,4 +45,31 @@ ProductRouter.post("/latestproductdata", upload.single("file"),async (req,res)=>
 })
 
 
-module.exports = {ProductRouter,GetProductRouter};
+
+deleteProjectRouter.delete("/product/:id",async(req,res)=>{
+  try {
+    const id = req.params.id;
+    await LatestProduct.deleteOne({_id: id}).then(()=>{
+      res.status(200).send({
+        success: true,
+        message:"Projects delete sucessfull"
+      }).catch(err=>{
+        res.status(404).send({
+          success:false,
+          message:"Projects delete failed"
+        })
+
+        
+      })
+    })
+  } catch (error) {
+    res.status(500).send({
+      success:false,
+      message: error.message
+    })
+  }
+})
+
+
+
+module.exports = {ProductRouter,GetProductRouter,deleteProjectRouter};

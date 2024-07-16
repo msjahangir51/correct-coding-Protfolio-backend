@@ -1,5 +1,5 @@
 const express = require("express");
-const {GetProductRouter,ProductRouter} = require("./routes/Product.Route");
+const {GetProductRouter,ProductRouter, delateProductRouter,deleteProjectRouter} = require("./routes/Product.Route");
 const cors = require("cors");
 const { LatestProduct } = require("./model/ProjectsSchema");
 const { userlogin } = require("./routes/userLogin.route");
@@ -29,6 +29,7 @@ app.use("/post",ProductRouter)
 app.use("/post",userlogin)
 app.use("/post",postMessageRouter)
 app.use("/api",getMessageRouter)
+app.use("/delete",deleteProjectRouter)
 app.get("/profile",passport.authenticate('jwt', { session: false }),(req,res)=>{
     return res.status(200).send({
         success: true,
